@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { addStudent } from './Services/addService'
 
 export default function CreateStudent () {
   const [id, setId] = useState('')
@@ -11,15 +12,12 @@ export default function CreateStudent () {
   const handleSubmit = e => {
     e.preventDefault()
     const studentData = { id, name, place, phone }
-    fetch('http://localhost:8000/student/new', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(studentData)
-    })
-      .then(res => {
-        navigate('/')
-      })
-      .catch(err => console.log(err.message))
+    try {
+      addStudent(studentData)
+      navigate('/')
+    }catch(err) {
+      console.error(err.message)
+    }
   }
 
   return (

@@ -1,15 +1,23 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import { getStudent } from './Services/viewservice'
 
 export default function ViewStudent () {
   const { studentid } = useParams()
   const [studentData, setStudentData] = useState({})
+
   useEffect(() => {
-    fetch('http://localhost:8000/student/' + studentid)
-      .then(res => res.json())
-      .then(data => setStudentData(data))
-      .catch(err => console.log(err.message))
+    const fetchStudent = async () => {
+      try {
+        const data = await getStudent(studentid)
+        setStudentData(data)
+      } catch (error) {
+        console.log(error.message)
+      }
+    }
+    fetchStudent()
   }, [studentid])
+
   return (
     <div className='container'>
       <h2>View Student</h2>

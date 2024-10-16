@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
+import { getStudent, updateStudent } from './Services/editservice'
 
 export default function EditStudent () {
   const { studentid } = useParams()
@@ -9,29 +10,29 @@ export default function EditStudent () {
   const [phone, setPhone] = useState('')
   const [validation, setValidation] = useState(false)
   const navigate = useNavigate()
-  //const [studentData, setStudentData] = useState({})
   useEffect(() => {
-    fetch('http://localhost:8000/student/' + studentid)
-      .then(res => res.json())
-      .then(data => {
+    const fetchStudentData = async () => {
+      try {
+        const data = await getStudent(studentid)
         setName(data.name)
         setPlace(data.place)
         setPhone(data.phone)
-      })
-      .catch(err => console.log(err.message))
+      } catch (error) {
+        console.log(error.message)
+      }
+    }
+    fetchStudentData()
   }, [studentid])
+
   const handleSubmit = e => {
     e.preventDefault()
     const studentData = { id, name, place, phone }
-    fetch('http://localhost:8000/student/edit/'+studentid, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(studentData)
-    })
-      .then(res => {
-        navigate('/')
-      })
-      .catch(err => console.log(err.message))
+    try {
+      updateStudent(studentid, studentData)
+      navigate('/')
+    } catch (err) {
+      console.error(err.message)
+    }
   }
   return (
     <div className='container'>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { fetchStudents, deleteStudent } from './Services/listservice'
 
 export default function StudentTable () {
   const [students, setStudents] = useState('')
@@ -11,27 +12,27 @@ export default function StudentTable () {
   const Editdetails = id => {
     navigate('/student/edit/' + id)
   }
-  const deletedetails = id => {
+  const deletedetails = async id => {
     if (window.confirm('are you sure you want to delete ?')) {
-      fetch('http://localhost:8000/student/delete/' + id, {
-        method: 'DELETE'
-      })
-        .then(res => {
-          window.location.reload()
-        })
-        .catch(err => console.log(err.message))
+      try {
+        await deleteStudent(id)
+        getStudents()
+      } catch(error) {
+        console.error(error.message)
+      }
     }
   }
   useEffect(() => {
-    fetch('http://localhost:8000/student/')
-      .then(res => res.json())
-      .then(data => {
+    getStudents()
+  },[])
+    const getStudents = async () => {
+      try {
+        const data = await fetchStudents()
         setStudents(data)
-      })
-      .catch(err => {
-        console.log(err.message)
-      })
-  }, [students])
+      } catch (error) {
+        console.log(error.message)
+      }
+    }
   const handleSearch = e => {
     setSearchQuery(e.target.value)
   }
