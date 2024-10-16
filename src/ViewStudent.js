@@ -5,7 +5,7 @@ export default function ViewStudent () {
   const { studentid } = useParams()
   const [studentData, setStudentData] = useState({})
   useEffect(() => {
-    fetch('http://localhost:8000/students/' + studentid)
+    fetch('http://localhost:8000/student/' + studentid)
       .then(res => res.json())
       .then(data => setStudentData(data))
       .catch(err => console.log(err.message))

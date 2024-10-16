@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 
 export default function StudentTable () {
   const [students, setStudents] = useState('')
+  const [searchQuery, setSearchQuery] = useState('')
   const navigate = useNavigate()
   const Displaydetails = id => {
     navigate('/student/view/' + id)
@@ -12,7 +13,7 @@ export default function StudentTable () {
   }
   const deletedetails = id => {
     if (window.confirm('are you sure you want to delete ?')) {
-      fetch('http://localhost:8000/students/' + id, {
+      fetch('http://localhost:8000/student/delete/' + id, {
         method: 'DELETE'
       })
         .then(res => {
@@ -22,7 +23,7 @@ export default function StudentTable () {
     }
   }
   useEffect(() => {
-    fetch('http://localhost:8000/students')
+    fetch('http://localhost:8000/student/')
       .then(res => res.json())
       .then(data => {
         setStudents(data)
@@ -30,14 +31,33 @@ export default function StudentTable () {
       .catch(err => {
         console.log(err.message)
       })
-  }, [])
+  }, [students])
+  const handleSearch = e => {
+    setSearchQuery(e.target.value)
+  }
+  const filteredStudents = searchQuery
+    ? students.filter(
+        student =>
+          student.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          student.place.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : students
   return (
     <div className='container'>
       <h2>Student Records</h2>
       <div className='table-container'>
-        <Link to='/student/create' className='btn btn-add'>
-          Add New Student
-        </Link>
+        <div className='mb-3'>
+          <Link to='/student/create' className='btn btn-add'>
+            Add New Student
+          </Link>
+          <input
+            type='text'
+            placeholder='Search...'
+            value={searchQuery}
+            onChange={handleSearch}
+            className='btn btn-search'
+          />
+        </div>
         <table>
           <thead>
             <tr>
@@ -49,8 +69,8 @@ export default function StudentTable () {
             </tr>
           </thead>
           <tbody>
-            {students &&
-              students.map((student, index) => (
+            {filteredStudents.length > 0 ? (
+              filteredStudents.map((student, index) => (
                 <tr key={student.id}>
                   <td>{index + 1}</td>
                   <td>{student.name}</td>
@@ -77,7 +97,14 @@ export default function StudentTable () {
                     </button>
                   </td>
                 </tr>
-              ))}
+              ))
+            ) : (
+              <tr>
+                <td colSpan='5' className='text-center text-danger'>
+                  No students found
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

@@ -96,7 +96,7 @@
     transform: translateY(-2px);
   }
   
-  .btn-add {
+  .btn-add{
     background-color: #533366;
     color: #FFFFFF;
     margin-bottom: 20px;
@@ -108,7 +108,24 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(103, 65, 136, 0.2);
   }
+
+  .btn-search{
+    border-color: #533366;
+    color: black;
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    display: inline-block;
+    padding: 12px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(103, 65, 136, 0.2);
+  }
   
+  .d-flex {
+    justify-content: space-evenly;
+  }
+
   .btn-add:hover {
     box-shadow: 0 6px 12px rgba(103, 65, 136, 0.3);
   }

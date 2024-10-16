@@ -11,10 +11,9 @@ export default function EditStudent () {
   const navigate = useNavigate()
   //const [studentData, setStudentData] = useState({})
   useEffect(() => {
-    fetch('http://localhost:8000/students/' + studentid)
+    fetch('http://localhost:8000/student/' + studentid)
       .then(res => res.json())
       .then(data => {
-        setId(data.id)
         setName(data.name)
         setPlace(data.place)
         setPhone(data.phone)
@@ -24,7 +23,7 @@ export default function EditStudent () {
   const handleSubmit = e => {
     e.preventDefault()
     const studentData = { id, name, place, phone }
-    fetch('http://localhost:8000/students/'+studentid, {
+    fetch('http://localhost:8000/student/edit/'+studentid, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(studentData)
@@ -38,20 +37,6 @@ export default function EditStudent () {
     <div className='container'>
       <h2>Edit Student Details</h2>
       <form onSubmit={handleSubmit}>
-        <label htmlFor='id'>ID:</label>
-        <input
-          type='text'
-          id='id'
-          name='id'
-          value={id}
-          required
-          onChange={e => setId(e.target.value)}
-          onMouseDown={() => setValidation(true)}
-        />
-        {id.length === 0 && validation && (
-          <span className='errorMsg'>Please enter your id</span>
-        )}
-
         <label htmlFor='name'>Name:</label>
         <input
           type='text'

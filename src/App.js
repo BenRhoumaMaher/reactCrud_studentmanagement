@@ -4,6 +4,7 @@ import StudentTable from './StudentTable'
 import CreateStudent from './CreateStudent'
 import EditStudent from './EditStudent'
 import ViewStudent from './ViewStudent'
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function App () {
   return (
