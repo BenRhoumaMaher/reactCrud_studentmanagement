@@ -9,8 +9,22 @@ export default function EditStudent () {
   const [place, setPlace] = useState('')
   const [phone, setPhone] = useState('')
   const [date, setDate] = useState('')
+  const [classe, setClasse] = useState([])
+  const [classes, setClasses] = useState([])
   const [validation, setValidation] = useState(false)
   const navigate = useNavigate()
+
+  useEffect(() => {
+    fetch('http://localhost:8000/student/api/classes')
+      .then(response => response.json())
+      .then(data => {
+        setClasses(data)
+      })
+      .catch(error => {
+        console.error('Error fetching classes:', error)
+      })
+  }, [])
+
   useEffect(() => {
     const fetchStudentData = async () => {
       try {
@@ -19,6 +33,7 @@ export default function EditStudent () {
         setPlace(data.place)
         setPhone(data.phone)
         setDate(data.date)
+        setClasse(data.classe)
       } catch (error) {
         console.log(error.message)
       }
@@ -28,7 +43,7 @@ export default function EditStudent () {
 
   const handleSubmit = e => {
     e.preventDefault()
-    const studentData = { id, name, place, phone, date }
+    const studentData = { id, name, place, phone, date, classe }
     try {
       updateStudent(studentid, studentData)
       navigate('/')
@@ -94,6 +109,25 @@ export default function EditStudent () {
         />
         {date.length === 0 && validation && (
           <span className='errorMsg'>Please enter date</span>
+        )}
+
+        <label htmlFor='classe'>Classe:</label>
+        <select
+          id='classe'
+          name='classe'
+          value={classe}
+          required
+          onChange={e => setClasse(e.target.value)}
+        >
+          <option value=''>Select a class</option>
+          {classes.map(c => (
+            <option key={c.id} value={c.id}>
+              {c.name}
+            </option>
+          ))}
+        </select>
+        {classe.length === 0 && validation && (
+          <span className='errorMsg'>Please enter a classe</span>
         )}
 
         <div>

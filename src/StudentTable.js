@@ -67,6 +67,7 @@ export default function StudentTable () {
               <th>Place</th>
               <th>Phone</th>
               <th>Date</th>
+              <th>Classe</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -79,6 +80,7 @@ export default function StudentTable () {
                   <td>{student.place}</td>
                   <td>{student.phone}</td>
                   <td>{student.date}</td>
+                  <td>{student.classe}</td>
                   <td>
                     <button
                       onClick={() => Displaydetails(student.id)}

@@ -43,9 +43,13 @@ export default function ViewStudent () {
             <strong>Date: </strong>
             {studentData.date}
           </p>
+          <p>
+            <strong>Classe: </strong>
+            {studentData.classe}
+          </p>
         </div>
       )}
-      <Link to='/' class='btn btn-back'>
+      <Link to='/' className='btn btn-back'>
         Back
       </Link>
     </div>
