@@ -7,15 +7,16 @@ export default function CreateStudent () {
   const [name, setName] = useState('')
   const [place, setPlace] = useState('')
   const [phone, setPhone] = useState('')
+  const [date, setDate] = useState('')
   const [validation, setValidation] = useState(false)
   const navigate = useNavigate()
   const handleSubmit = e => {
     e.preventDefault()
-    const studentData = { id, name, place, phone }
+    const studentData = { id, name, place, phone, date }
     try {
       addStudent(studentData)
       navigate('/')
-    }catch(err) {
+    } catch (err) {
       console.error(err.message)
     }
   }
@@ -64,6 +65,20 @@ export default function CreateStudent () {
         />
         {phone.length === 0 && validation && (
           <span className='errorMsg'>Please enter your phone</span>
+        )}
+
+        <label htmlFor='date'>Date:</label>
+        <input
+          type='text'
+          id='date'
+          name='date'
+          value={date}
+          required
+          onChange={e => setDate(e.target.value)}
+          onMouseDown={() => setValidation(true)}
+        />
+        {date.length === 0 && validation && (
+          <span className='errorMsg'>Please enter a date</span>
         )}
 
         <div>

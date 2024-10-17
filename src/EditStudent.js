@@ -8,6 +8,7 @@ export default function EditStudent () {
   const [name, setName] = useState('')
   const [place, setPlace] = useState('')
   const [phone, setPhone] = useState('')
+  const [date, setDate] = useState('')
   const [validation, setValidation] = useState(false)
   const navigate = useNavigate()
   useEffect(() => {
@@ -17,6 +18,7 @@ export default function EditStudent () {
         setName(data.name)
         setPlace(data.place)
         setPhone(data.phone)
+        setDate(data.date)
       } catch (error) {
         console.log(error.message)
       }
@@ -26,7 +28,7 @@ export default function EditStudent () {
 
   const handleSubmit = e => {
     e.preventDefault()
-    const studentData = { id, name, place, phone }
+    const studentData = { id, name, place, phone, date }
     try {
       updateStudent(studentid, studentData)
       navigate('/')
@@ -78,6 +80,20 @@ export default function EditStudent () {
         />
         {phone.length === 0 && validation && (
           <span className='errorMsg'>Please enter your phone</span>
+        )}
+
+        <label htmlFor='date'>Date:</label>
+        <input
+          type='text'
+          id='date'
+          name='date'
+          value={date}
+          required
+          onChange={e => setDate(e.target.value)}
+          onMouseDown={() => setValidation(true)}
+        />
+        {date.length === 0 && validation && (
+          <span className='errorMsg'>Please enter date</span>
         )}
 
         <div>
